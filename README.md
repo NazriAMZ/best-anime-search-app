@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# 🍜 Best Anime Search App (Anime Explorer)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🌟 Project Overview
 
-Currently, two official plugins are available:
+**Anime Explorer** is a fast, modern web application built with React and TypeScript for searching, listing, and viewing detailed information on anime titles, powered by the Jikan API (a community-driven wrapper for MyAnimeList data).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application features a dedicated search page with real-time, debounced query handling via Redux Toolkit Query (RTK Query) and a dynamic detail page with an integrated live search feature for quick navigation between titles.
 
-## React Compiler
+---
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## ✨ Core Features
 
-## Expanding the ESLint configuration
+- **⚡️ Fast, Debounced Search:** Real-time search functionality on the main page, optimized with debouncing to minimize API calls (250ms interval).
+- **🔄 API Request Cancellation:** Implement correct use of `AbortController` to cancel in-flight requests when the user continues typing, ensuring resource efficiency.
+- **🖼️ Grid View Listing:** Attractive, responsive display of anime results using card components.
+- **🌐 Two-Page Navigation:** Separate pages for Search/Listing and individual Anime Details.
+- **🔌 Server-side Pagination:** Controls for navigating large result sets.
+- **💀 Skeleton Loaders:** Improved user experience with custom skeleton loading components during data fetching.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🏆 Bonus Implementations
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+The following features go **above and beyond** the core project requirements, focusing on enhanced user experience and application fluidity:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1\. Live Search/Suggestions on the Detail Page
+
+The Detail Page (`DetailPage.jsx`) was enhanced with a fully functional live search bar:
+
+- **Dedicated API Fetching:** Introduced a separate, debounced API call within the `DetailPage` component itself to fetch suggestions, independent of the main page search state.
+- **Immediate Navigation:** Search results are displayed in a rich **Popover** (dropdown) that includes thumbnails and titles, allowing users to navigate directly to a new anime's detail page without returning to the main search screen.
+
+### 2\. Enhanced Search UI/UX Handling
+
+Sophisticated logic was implemented to manage the Popover, addressing common pitfalls in auto-complete UI:
+
+- **Focus Loss Prevention:** Custom `onBlur` handlers with a delay (`setTimeout`) were used on the search input to prevent the popover from closing immediately, ensuring users can click on a suggestion link before the dropdown disappears.
+- **Proactive Messaging:** Instead of immediately displaying "No matches found" when the search bar is empty, the UI displays a helpful message ("Type at least 3 characters to search"), improving user guidance and reducing perceived errors.
+
+---
+
+## 🚀 Tech Stack
+
+This project is built using the following technologies:
+
+| Category          | Technology                        | Purpose                                                                                 |
+| :---------------- | :-------------------------------- | :-------------------------------------------------------------------------------------- |
+| **Framework**     | **React** (with **TypeScript**)   | Frontend development and typing.                                                        |
+| **Routing**       | **React Router DOM**              | Client-side navigation between search and detail pages.                                 |
+| **State/Data**    | **Redux Toolkit** & **RTK Query** | Centralized state management and optimized data fetching/caching.                       |
+| **API**           | **Jikan API** (via \`jikan.moe\`) | Source of anime data (search, details).                                                 |
+| **Styling**       | **Tailwind CSS**                  | Utility-first CSS framework for rapid UI development.                                   |
+| **UI Components** | \`shadcn/ui\` (or similar)        | Used for professional components like \`Card\`, \`Button\`, \`Input\`, and \`Popover\`. |
+| **Utilities**     | \`useDebounce\` hook              | Custom hook for request throttling.                                                     |
+
+---
+
+## ⚙️ Installation and Setup
+
+To get a local copy up and running, follow these steps.
+
+### Prerequisites
+
+You need **Node.js** (v18+) and **npm** or **Yarn** installed on your machine.
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/NazriAMZ/best-anime-search-app.git
+cd best-anime-search-app
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Install Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### Start the Development Server
+
+```bash
+npm run dev
+```
+
+The application should now be running at `http://localhost:4000` (or the port specified in your console).
