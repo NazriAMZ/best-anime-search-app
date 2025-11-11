@@ -40,11 +40,6 @@ export const fetchSearch = createAsyncThunk(
     const signal = thunkAPI.signal as AbortSignal;
     const json = await fetchAnimeSearch(query, page, perPage, signal);
     return json;
-  },
-  {
-    condition: ({ query }, { getState }) => {
-      return true;
-    },
   }
 );
 
